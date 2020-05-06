@@ -27,16 +27,16 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x |  bash -
 RUN apt-get install -y nodejs
 
 WORKDIR /src
-COPY ["CarSale/CarSale.csproj", "CarSale/"]
-RUN dotnet restore "CarSale/CarSale.csproj"
+COPY ["CarSale3.2.csproj", "CarSale3.2/"]
+RUN dotnet restore "CarSale3.2.csproj"
 COPY . .
-WORKDIR "/src/CarSale"
-RUN dotnet build "CarSale.csproj" -c Release -o /app/build
+WORKDIR "/src/CarSale3.2"
+RUN dotnet build "CarSale3.2.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "CarSale.csproj" -c Release -o /app/publish
+RUN dotnet publish "CarSale3.2.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "CarSale.dll"]
+ENTRYPOINT ["dotnet", "CarSale3.2.dll"]
